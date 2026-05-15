@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesouro Reserva vs CDB vs Poupança — Comparativo Completo 2025 | Valore Dinheiro</title>
+<meta name="description" content="Comparativo completo entre Tesouro Reserva, CDB, Poupança, Tesouro SELIC, Fundos DI e ETF de Renda Fixa. Calculadora de juros compostos com gráficos para 5, 10 e 15 anos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:      #FFFDF7;
+  --bg2:     #F7F3EA;
+  --surface: #FFFFFF;
+  --border:  #E8E0D0;
+  --text:    #1C1509;
+  --muted:   #7A6F5E;
+  --accent:  #1B6B3A;
+  --accent2: #2D9E5A;
+  --accent-l:#E8F5EE;
+  --gold:    #C49A1A;
+  --gold-l:  #FEF9E7;
+  --blue:    #0052CC;
+  --blue-l:  #E8F0FE;
+  --red:     #C0392B;
+  --red-l:   #FDECEA;
+  --purple:  #5B21B6;
+  --purple-l:#EDE9FE;
+  --serif:   'Playfair Display', Georgia, serif;
+  --sans:    'DM Sans', sans-serif;
+  --mono:    'DM Mono', monospace;
+
+  /* Cores dos investimentos */
+  --c-reserva: #1B6B3A;
+  --c-selic:   #0052CC;
+  --c-cdb:     #C49A1A;
+  --c-poup:    #C0392B;
+  --c-fundo:   #5B21B6;
+  --c-etf:     #0891B2;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7}
+
+/* ── HEADER ── */
+.site-header{background:var(--surface);border-bottom:3px solid var(--text);position:sticky;top:0;z-index:200;padding:0 2rem}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;height:60px}
+.logo{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:var(--text);text-decoration:none}
+.logo span{color:var(--accent)}
+.logo sup{font-family:var(--sans);font-size:0.5rem;font-weight:700;background:var(--gold);color:white;padding:.1rem .35rem;border-radius:3px;vertical-align:super}
+.header-back{margin-left:auto;font-size:.82rem;color:var(--accent);text-decoration:none;font-weight:700;display:flex;align-items:center;gap:.3rem;border:1.5px solid var(--accent);padding:.4rem .9rem;border-radius:6px;transition:all .2s}
+.header-back:hover{background:var(--accent);color:white}
+
+/* ── HERO ARTIGO ── */
+.art-hero{background:var(--text);color:white;padding:4rem 2rem 3rem;position:relative;overflow:hidden}
+.art-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(27,107,58,.4) 0%,transparent 65%);pointer-events:none}
+.art-hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(196,154,26,.2) 0%,transparent 65%);pointer-events:none}
+.art-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.art-cat{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#7DCEA0;margin-bottom:.8rem}
+.art-hero h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1.1;letter-spacing:-.02em;margin-bottom:1rem}
+.art-hero h1 em{font-style:normal;color:#7DCEA0}
+.art-lead{font-size:1.05rem;color:#B8AFA0;line-height:1.7;max-width:700px;margin-bottom:1.5rem}
+.art-meta{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.8rem;color:rgba(255,255,255,.5);align-items:center}
+.art-author{display:flex;align-items:center;gap:.5rem}
+.art-avatar{width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+.art-tag-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:.2rem .6rem;font-size:.72rem;font-weight:600}
+
+/* ── PROGRESS BAR ── */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:9999;width:0%;transition:width .1s}
+
+/* ── LAYOUT ── */
+.container{max-width:1100px;margin:0 auto;padding:0 2rem}
+.layout-art{display:grid;grid-template-columns:1fr 300px;gap:2.5rem;padding:2.5rem 0}
+@media(max-width:900px){.layout-art{grid-template-columns:1fr}}
+
+/* ── ARTICLE BODY ── */
+.art-body h2{font-family:var(--serif);font-size:1.6rem;font-weight:900;margin:2.5rem 0 .8rem;padding-top:1rem;border-top:2px solid var(--border)}
+.art-body h3{font-family:var(--serif);font-size:1.2rem;font-weight:700;margin:1.5rem 0 .5rem;color:var(--accent)}
+.art-body p{font-size:.97rem;line-height:1.8;margin-bottom:1rem;color:var(--text)}
+.art-body ul,.art-body ol{padding-left:1.4rem;margin-bottom:1rem}
+.art-body li{font-size:.95rem;line-height:1.7;margin-bottom:.3rem}
+.art-body strong{color:var(--text);font-weight:700}
+
+.callout{border-radius:10px;padding:1.2rem 1.5rem;margin:1.5rem 0;display:flex;gap:.8rem}
+.callout.green{background:var(--accent-l);border-left:4px solid var(--accent)}
+.callout.gold{background:var(--gold-l);border-left:4px solid var(--gold)}
+.callout.blue{background:var(--blue-l);border-left:4px solid var(--blue)}
+.callout.red{background:var(--red-l);border-left:4px solid var(--red)}
+.callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.callout p{margin:0;font-size:.9rem;line-height:1.6}
+
+/* ── INVESTMENT CARDS ── */
+.inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1.5rem 0}
+.inv-card{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:1.2rem;transition:all .2s;position:relative;overflow:hidden}
+.inv-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
+.inv-card.reserva::before{background:var(--c-reserva)}
+.inv-card.selic::before{background:var(--c-selic)}
+.inv-card.cdb::before{background:var(--c-cdb)}
+.inv-card.poup::before{background:var(--c-poup)}
+.inv-card.fundo::before{background:var(--c-fundo)}
+.inv-card.etf::before{background:var(--c-etf)}
+.inv-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.inv-name{font-weight:800;font-size:.95rem;margin-bottom:.3rem}
+.inv-rate{font-family:var(--mono);font-size:1.5rem;font-weight:500;margin:.4rem 0}
+.inv-rate.reserva{color:var(--c-reserva)}
+.inv-rate.selic{color:var(--c-selic)}
+.inv-rate.cdb{color:var(--c-cdb)}
+.inv-rate.poup{color:var(--c-poup)}
+.inv-rate.fundo{color:var(--c-fundo)}
+.inv-rate.etf{color:var(--c-etf)}
+.inv-meta{font-size:.75rem;color:var(--muted);line-height:1.5;margin-top:.4rem}
+.inv-badges{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.6rem}
+.badge{font-size:.65rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}
+.badge.green{background:var(--accent-l);color:var(--accent)}
+.badge.gold{background:var(--gold-l);color:var(--gold)}
+.badge.red{background:var(--red-l);color:var(--red)}
+.badge.blue{background:var(--blue-l);color:var(--blue)}
+.badge.gray{background:var(--bg2);color:var(--muted)}
+
+/* ── COMPARISON TABLE ── */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:12px;border:1.5px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:var(--text);color:white;padding:.8rem 1rem;text-align:left;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+td{padding:.8rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--bg2)}
+tr:hover td{background:var(--accent-l)}
+.td-best{color:var(--accent);font-weight:800}
+.td-worst{color:var(--red)}
+.td-mid{color:var(--gold)}
+
+/* ── CHARTS ── */
+.chart-section{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:1.5rem;margin:2rem 0}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem}
+.chart-title{font-family:var(--serif);font-size:1.1rem;font-weight:800}
+.chart-tabs{display:flex;gap:.3rem}
+.chart-tab{padding:.35rem .8rem;border-radius:100px;border:1.5px solid var(--border);background:var(--bg2);font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.chart-tab.active{background:var(--accent);border-color:var(--accent);color:white}
+.chart-tab:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+.chart-wrap{position:relative;height:320px}
+.chart-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.8rem;justify-content:center}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+
+/* ── CALCULATOR ── */
+.calc-section{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin:2rem 0}
+.calc-header{background:var(--text);color:white;padding:1.2rem 1.5rem}
+.calc-header h3{font-family:var(--serif);font-size:1.2rem;font-weight:800;margin-bottom:.2rem}
+.calc-header p{font-size:.82rem;color:rgba(255,255,255,.6)}
+.calc-body{padding:1.5rem}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:1rem}
+.calc-field label{display:block;font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
+.calc-input{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .9rem;font-family:var(--sans);font-size:.92rem;color:var(--text);outline:none;transition:border-color .2s}
+.calc-input:focus{border-color:var(--accent)}
+.calc-select{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .9rem;font-family:var(--sans);font-size:.88rem;color:var(--text);outline:none;cursor:pointer}
+.btn-calc{width:100%;background:var(--accent);color:white;border:none;border-radius:10px;padding:.85rem;font-family:var(--sans);font-weight:800;font-size:.95rem;cursor:pointer;transition:all .2s;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.btn-calc:hover{background:var(--accent2);transform:translateY(-1px)}
+
+.calc-results{display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1.5px solid var(--border)}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin-bottom:1.2rem}
+.result-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:.9rem;text-align:center}
+.result-card.winner{background:var(--accent-l);border-color:var(--accent)}
+.result-label{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+.result-value{font-family:var(--mono);font-size:1.1rem;font-weight:500;color:var(--text)}
+.result-value.winner{color:var(--accent);font-size:1.3rem}
+.result-gain{font-size:.72rem;color:var(--accent);font-weight:700;margin-top:.2rem}
+.calc-chart-wrap{height:280px;position:relative}
+
+/* ── MENTORIA ── */
+.mentoria-section{background:var(--text);color:white;padding:3rem 2rem;margin:3rem 0;border-radius:20px;position:relative;overflow:hidden}
+.mentoria-section::before{content:'';position:absolute;top:-60px;right:-60px;width:350px;height:350px;background:radial-gradient(circle,rgba(27,107,58,.4) 0%,transparent 65%);pointer-events:none}
+.mentoria-section::after{content:'';position:absolute;bottom:-40px;left:-40px;width:250px;height:250px;background:radial-gradient(circle,rgba(196,154,26,.25) 0%,transparent 65%);pointer-events:none}
+.mentoria-inner{position:relative;z-index:1}
+.mentoria-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#7DCEA0;margin-bottom:.8rem}
+.mentoria-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;line-height:1.1;margin-bottom:.8rem}
+.mentoria-title em{font-style:normal;color:#7DCEA0}
+.mentoria-sub{color:#B8AFA0;font-size:.95rem;line-height:1.7;max-width:600px;margin-bottom:2rem}
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-bottom:2rem}
+.plan-card{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:16px;padding:1.5rem;transition:all .3s;position:relative}
+.plan-card:hover{background:rgba(255,255,255,.12);transform:translateY(-4px)}
+.plan-card.featured{border-color:#7DCEA0;background:rgba(27,107,58,.25)}
+.plan-popular{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:white;font-size:.68rem;font-weight:800;padding:.2rem .8rem;border-radius:100px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.plan-name{font-family:var(--serif);font-size:1.1rem;font-weight:800;margin-bottom:.2rem}
+.plan-price{font-family:var(--mono);font-size:2rem;font-weight:500;color:#7DCEA0;line-height:1;margin:.6rem 0}
+.plan-price span{font-size:.85rem;font-weight:400;color:#B8AFA0}
+.plan-features{list-style:none;margin:.8rem 0 1.2rem;display:flex;flex-direction:column;gap:.4rem}
+.plan-features li{font-size:.83rem;color:#D4CFC8;display:flex;align-items:flex-start;gap:.5rem;line-height:1.5}
+.plan-features li::before{content:'✓';color:#7DCEA0;font-weight:800;flex-shrink:0;margin-top:.1rem}
+.btn-plan{width:100%;padding:.75rem;border-radius:10px;font-family:var(--sans);font-weight:800;font-size:.88rem;cursor:pointer;border:none;transition:all .2s}
+.btn-plan.primary{background:var(--accent);color:white}
+.btn-plan.primary:hover{background:var(--accent2)}
+.btn-plan.ghost{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.3)}
+.btn-plan.ghost:hover{background:rgba(255,255,255,.1);border-color:white}
+.btn-plan.gold-btn{background:var(--gold);color:white}
+.btn-plan.gold-btn:hover{background:#D4A820}
+
+/* ── ENQUETE PERFIL ── */
+.quiz-section{background:var(--surface);border:2px solid var(--border);border-radius:20px;overflow:hidden;margin:2rem 0}
+.quiz-header{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);color:white;padding:1.5rem 2rem}
+.quiz-header h3{font-family:var(--serif);font-size:1.3rem;font-weight:900;margin-bottom:.3rem}
+.quiz-header p{font-size:.85rem;color:rgba(255,255,255,.8)}
+.quiz-body{padding:2rem}
+.quiz-progress{background:var(--border);border-radius:100px;height:6px;margin-bottom:1.5rem;overflow:hidden}
+.quiz-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;transition:width .4s ease}
+.quiz-step{display:none}
+.quiz-step.active{display:block}
+.quiz-q{font-family:var(--serif);font-size:1.1rem;font-weight:800;margin-bottom:.4rem}
+.quiz-qsub{font-size:.85rem;color:var(--muted);margin-bottom:1.2rem}
+.quiz-options{display:flex;flex-direction:column;gap:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.8rem;padding:.9rem 1rem;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;font-size:.9rem;line-height:1.5}
+.quiz-opt:hover{border-color:var(--accent);background:var(--accent-l)}
+.quiz-opt.selected{border-color:var(--accent);background:var(--accent-l)}
+.quiz-opt-icon{font-size:1.2rem;flex-shrink:0;margin-top:.05rem}
+.quiz-nav{display:flex;gap:.8rem;margin-top:1.5rem;justify-content:space-between;align-items:center}
+.quiz-step-label{font-size:.78rem;color:var(--muted);font-weight:600}
+.btn-quiz{padding:.6rem 1.4rem;border-radius:8px;font-family:var(--sans);font-weight:700;font-size:.88rem;cursor:pointer;border:none;transition:all .2s}
+.btn-quiz.next{background:var(--accent);color:white}
+.btn-quiz.next:hover{background:var(--accent2)}
+.btn-quiz.back{background:var(--bg2);color:var(--muted);border:1.5px solid var(--border)}
+.btn-quiz.back:hover{color:var(--text)}
+
+/* QUIZ RESULT */
+.quiz-result{display:none;text-align:center;padding:1rem}
+.result-emoji{font-size:4rem;margin-bottom:.8rem}
+.result-profile{font-family:var(--serif);font-size:1.6rem;font-weight:900;margin-bottom:.4rem}
+.result-desc{font-size:.92rem;color:var(--muted);line-height:1.7;max-width:500px;margin:0 auto 1.5rem}
+.result-recs{background:var(--bg2);border-radius:12px;padding:1.2rem;text-align:left;margin-bottom:1.5rem}
+.result-recs-title{font-weight:800;font-size:.88rem;margin-bottom:.7rem;display:flex;align-items:center;gap:.4rem}
+.result-rec-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.result-rec-item:last-child{border-bottom:none}
+.rec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.btn-mentoria-cta{width:100%;padding:.85rem;background:var(--accent);color:white;border:none;border-radius:10px;font-family:var(--sans);font-weight:800;font-size:.95rem;cursor:pointer;transition:all .2s;margin-bottom:.5rem}
+.btn-mentoria-cta:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-refazer{width:100%;padding:.65rem;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:10px;font-family:var(--sans);font-weight:600;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn-refazer:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:1.5rem}
+.widget{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+.widget-head{background:var(--text);color:white;padding:.8rem 1.2rem;font-weight:800;font-size:.9rem}
+.widget-body{padding:1.2rem}
+.widget-link{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);font-size:.83rem;transition:color .15s}
+.widget-link:hover{color:var(--accent)}
+.widget-link:last-child{border-bottom:none}
+.widget-link-arrow{color:var(--muted);font-size:.75rem}
+
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:.3rem}
+.toc-list a{font-size:.82rem;color:var(--muted);text-decoration:none;padding:.3rem .5rem;border-radius:5px;display:block;transition:all .15s;border-left:2px solid transparent}
+.toc-list a:hover{color:var(--accent);background:var(--accent-l);border-left-color:var(--accent)}
+
+/* ── AD SLOT ── */
+.ad-slot{background:var(--bg2);border:1px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.3rem;color:var(--muted);font-size:.72rem;text-align:center}
+.ad-slot.h{width:100%;height:90px;margin:1.5rem 0}
+.ad-slot.sq{width:100%;height:250px;margin-bottom:1rem}
+
+/* ── FOOTER ── */
+footer{background:var(--text);color:white;padding:2rem;text-align:center;margin-top:3rem}
+footer p{font-size:.78rem;color:#5A5040;line-height:1.7}
+footer a{color:#7DCEA0;text-decoration:none}
+
+@media(max-width:600px){
+  .plans-grid{grid-template-columns:1fr}
+  .chart-tabs{flex-wrap:wrap}
+  .calc-grid{grid-template-columns:1fr}
+  .results-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="pb"></div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Valore<span>Dinheiro</span><sup>BR</sup></a>
+    <a href="index.html" class="header-back">← Voltar ao blog</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="art-hero">
+  <div class="art-hero-inner">
+    <div class="art-cat">📈 Investimentos · Comparativo Completo 2025</div>
+    <h1>Tesouro Reserva, CDB, Poupança,<br>SELIC, Fundos DI e <em>ETF</em>:<br>Qual rende mais em 2025?</h1>
+    <p class="art-lead">Comparativo completo com dados reais, simulações para 5, 10 e 15 anos, calculadora interativa de juros compostos e gráficos de projeção. Descubra onde cada real seu rende mais.</p>
+    <div class="art-meta">
+      <div class="art-author"><div class="art-avatar">AM</div> Antero de Mendonça</div>
+      <span>15 de maio de 2025</span>
+      <span class="art-tag-pill">⏱ 15 min de leitura</span>
+      <span class="art-tag-pill">🔄 Atualizado maio/2025</span>
+    </div>
+  </div>
+</div>
+
+<!-- AD SLOT TOPO -->
+<div class="container">
+  <div class="ad-slot h"><span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Publicidade</span><span>Google AdSense 728×90</span></div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="container">
+<div class="layout-art">
+
+<!-- ══════════════════════════════════════
+     ARTIGO PRINCIPAL
+══════════════════════════════════════ -->
+<main class="art-body">
+
+<h2 id="o-que-e">O que é o Tesouro Reserva? A novidade de 2025</h2>
+<p>Em março de 2025, o Tesouro Nacional lançou o <strong>Tesouro Reserva</strong> — um novo título público criado especificamente para substituir a poupança como principal produto de reserva de emergência dos brasileiros.</p>
+<p>Diferente do Tesouro SELIC, o Tesouro Reserva tem características únicas que o tornam mais atrativo para quem quer segurança e liquidez ao mesmo tempo:</p>
+<ul>
+  <li><strong>Liquidez diária</strong> — resgate em qualquer dia útil sem perda de rentabilidade</li>
+  <li><strong>Rentabilidade mínima garantida</strong> — nunca rende menos que a poupança</li>
+  <li><strong>Proteção contra marcação a mercado</strong> — preço não oscila negativamente</li>
+  <li><strong>Investimento mínimo:</strong> R$30</li>
+  <li><strong>Garantia:</strong> Governo Federal (risco soberano)</li>
+</ul>
+
+<div class="callout green">
+  <div class="callout-icon">💡</div>
+  <p><strong>Em linguagem simples:</strong> O Tesouro Reserva é uma poupança turbinada garantida pelo governo. Rende mais, tem a mesma liquidez e o mesmo nível de segurança — ou maior.</p>
+</div>
+
+<h3>Rentabilidade atual do Tesouro Reserva</h3>
+<p>O Tesouro Reserva rende <strong>100% da SELIC</strong> com proteção de preço — atualmente <strong>10,65% ao ano</strong> — enquanto a poupança rende apenas 70% da SELIC + TR, totalizando cerca de 7,5% ao ano.</p>
+
+<!-- CARDS DOS INVESTIMENTOS -->
+<h2 id="comparativo">Os 6 investimentos comparados</h2>
+<p>Veja as características de cada investimento antes de analisar a rentabilidade:</p>
+
+<div class="inv-grid">
+  <div class="inv-card reserva">
+    <div class="inv-name">🟢 Tesouro Reserva</div>
+    <div class="inv-rate reserva">10,65% a.a.</div>
+    <div class="inv-meta">100% SELIC · Liquidez diária · Sem marcação a mercado · A partir de R$30</div>
+    <div class="inv-badges">
+      <span class="badge green">Segurança máx</span>
+      <span class="badge green">Liquidez diária</span>
+      <span class="badge blue">IR regressivo</span>
+    </div>
+  </div>
+  <div class="inv-card selic">
+    <div class="inv-name">🔵 Tesouro SELIC</div>
+    <div class="inv-rate selic">10,65% a.a.</div>
+    <div class="inv-meta">SELIC + 0,0% · Liquidez diária · Leve oscilação de preço · A partir de R$30</div>
+    <div class="inv-badges">
+      <span class="badge green">Segurança máx</span>
+      <span class="badge green">Liquidez diária</span>
+      <span class="badge blue">IR regressivo</span>
+    </div>
+  </div>
+  <div class="inv-card cdb">
+    <div class="inv-name">🟡 CDB 100% CDI</div>
+    <div class="inv-rate cdb">10,40% a.a.</div>
+    <div class="inv-meta">CDI atual 10,40% · Liquidez varia · Garantido pelo FGC até R$250k · A partir de R$1</div>
+    <div class="inv-badges">
+      <span class="badge green">Garantia FGC</span>
+      <span class="badge gold">Liquidez variável</span>
+      <span class="badge blue">IR regressivo</span>
+    </div>
+  </div>
+  <div class="inv-card poup">
+    <div class="inv-name">🔴 Poupança</div>
+    <div class="inv-rate poup">7,45% a.a.</div>
+    <div class="inv-meta">70% SELIC + TR · Liquidez mensal (aniversário) · Garantida pelo FGC · A partir de R$1</div>
+    <div class="inv-badges">
+      <span class="badge green">Isenta de IR</span>
+      <span class="badge red">Menor rentab.</span>
+      <span class="badge gray">Liquidez mensal</span>
+    </div>
+  </div>
+  <div class="inv-card fundo">
+    <div class="inv-name">🟣 Fundo DI</div>
+    <div class="inv-rate fundo">9,80% a.a.</div>
+    <div class="inv-meta">CDI menos taxas (0,3-0,5% a.a.) · D+0 ou D+1 · Come-cotas semestral · A partir de R$100</div>
+    <div class="inv-badges">
+      <span class="badge green">Gestão profis.</span>
+      <span class="badge gold">Taxa adm.</span>
+      <span class="badge blue">Come-cotas</span>
+    </div>
+  </div>
+  <div class="inv-card etf">
+    <div class="inv-name">🔷 ETF Renda Fixa</div>
+    <div class="inv-rate etf">10,20% a.a.</div>
+    <div class="inv-meta">Ex: IMAB11, B5P211 · Liquidez na bolsa · Taxa ~0,2% a.a. · A partir de 1 cota (~R$10)</div>
+    <div class="inv-badges">
+      <span class="badge green">Taxa baixa</span>
+      <span class="badge blue">Diversificação</span>
+      <span class="badge gold">Volatilidade</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABELA COMPARATIVA -->
+<h2 id="tabela">Tabela comparativa completa</h2>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Investimento</th>
+        <th>Taxa Atual</th>
+        <th>Liquidez</th>
+        <th>IR</th>
+        <th>Garantia</th>
+        <th>Mín.</th>
+        <th>Indicado para</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>🟢 Tesouro Reserva</strong></td>
+        <td class="td-best">10,65%</td>
+        <td class="td-best">Diária</td>
+        <td>Sim (regressivo)</td>
+        <td class="td-best">Governo Federal</td>
+        <td>R$30</td>
+        <td>Reserva de emergência</td>
+      </tr>
+      <tr>
+        <td><strong>🔵 Tesouro SELIC</strong></td>
+        <td class="td-best">10,65%</td>
+        <td class="td-best">Diária</td>
+        <td>Sim (regressivo)</td>
+        <td class="td-best">Governo Federal</td>
+        <td>R$30</td>
+        <td>Reserva + curto prazo</td>
+      </tr>
+      <tr>
+        <td><strong>🟡 CDB 100% CDI</strong></td>
+        <td class="td-mid">10,40%</td>
+        <td class="td-mid">Variável</td>
+        <td>Sim (regressivo)</td>
+        <td>FGC até R$250k</td>
+        <td>R$1</td>
+        <td>Médio prazo</td>
+      </tr>
+      <tr>
+        <td><strong>🔴 Poupança</strong></td>
+        <td class="td-worst">7,45%</td>
+        <td class="td-mid">Mensal</td>
+        <td class="td-best">Isento</td>
+        <td>FGC até R$250k</td>
+        <td>R$1</td>
+        <td>Ninguém (evitar)</td>
+      </tr>
+      <tr>
+        <td><strong>🟣 Fundo DI</strong></td>
+        <td class="td-mid">9,80%</td>
+        <td class="td-best">D+0 a D+1</td>
+        <td>Sim + come-cotas</td>
+        <td>Sem garantia</td>
+        <td>R$100</td>
+        <td>Quem quer gestão passiva</td>
+      </tr>
+      <tr>
+        <td><strong>🔷 ETF Renda Fixa</strong></td>
+        <td class="td-mid">10,20%</td>
+        <td class="td-mid">Bolsa (D+2)</td>
+        <td>Sim (15%)</td>
+        <td>Sem garantia</td>
+        <td>~R$10</td>
+        <td>Longo prazo</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout gold">
+  <div class="callout-icon">⚠️</div>
+  <p><strong>Atenção sobre a poupança:</strong> Com SELIC acima de 8,5% ao ano, a poupança rende apenas 70% da SELIC. Isso significa que quem tem R$10.000 na poupança está "perdendo" cerca de R$320 por ano em relação ao Tesouro Reserva.</p>
+</div>
+
+<!-- GRÁFICO COMPARATIVO -->
+<h2 id="graficos">Projeção gráfica: R$10.000 investidos</h2>
+<p>Veja visualmente como cada investimento se comporta em diferentes horizontes de tempo. Considera reinvestimento dos rendimentos e IR médio de 15%.</p>
+
+<div class="chart-section">
+  <div class="chart-header">
+    <div class="chart-title">📊 Crescimento de R$10.000 investidos</div>
+    <div class="chart-tabs">
+      <button class="chart-tab active" onclick="setChartPeriod(5,this)">5 anos</button>
+      <button class="chart-tab" onclick="setChartPeriod(10,this)">10 anos</button>
+      <button class="chart-tab" onclick="setChartPeriod(15,this)">15 anos</button>
+    </div>
+  </div>
+  <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+  <div class="chart-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--c-reserva)"></div>Tesouro Reserva</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--c-selic)"></div>Tesouro SELIC</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--c-cdb)"></div>CDB 100% CDI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--c-poup)"></div>Poupança</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--c-fundo)"></div>Fundo DI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--c-etf)"></div>ETF RF</div>
+  </div>
+</div>
+
+<!-- TABELA DE RESULTADOS POR PRAZO -->
+<h2 id="resultados">Resultado final por prazo</h2>
+<p>Quanto R$10.000 viram em cada investimento, já descontado o Imposto de Renda:</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Investimento</th><th>Em 5 anos</th><th>Em 10 anos</th><th>Em 15 anos</th><th>Ganho em 15 anos</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>🟢 Tesouro Reserva</strong></td><td class="td-best">R$15.847</td><td class="td-best">R$25.112</td><td class="td-best">R$39.803</td><td class="td-best">+298%</td></tr>
+      <tr><td><strong>🔵 Tesouro SELIC</strong></td><td class="td-best">R$15.820</td><td class="td-best">R$25.007</td><td class="td-best">R$39.522</td><td class="td-best">+295%</td></tr>
+      <tr><td><strong>🟡 CDB 100% CDI</strong></td><td>R$15.640</td><td>R$24.461</td><td>R$38.239</td><td>+282%</td></tr>
+      <tr><td><strong>🔷 ETF Renda Fixa</strong></td><td>R$15.487</td><td>R$23.985</td><td>R$37.148</td><td>+271%</td></tr>
+      <tr><td><strong>🟣 Fundo DI</strong></td><td>R$15.102</td><td>R$22.812</td><td>R$34.455</td><td>+245%</td></tr>
+      <tr><td><strong>🔴 Poupança</strong></td><td class="td-worst">R$14.320</td><td class="td-worst">R$20.506</td><td class="td-worst">R$29.368</td><td class="td-worst">+194%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout green">
+  <div class="callout-icon">🏆</div>
+  <p><strong>Conclusão:</strong> Em 15 anos, o Tesouro Reserva transforma R$10.000 em quase R$40.000 — enquanto a poupança chega a apenas R$29.368. A diferença de R$10.435 só de escolher onde guardar o dinheiro.</p>
+</div>
+
+<!-- CALCULADORA DE JUROS COMPOSTOS -->
+<h2 id="calculadora">Calculadora de Juros Compostos</h2>
+<p>Simule seu próprio cenário com aportes mensais, prazo e taxa personalizada:</p>
+
+<div class="calc-section">
+  <div class="calc-header">
+    <h3>🧮 Calculadora Avançada de Investimentos</h3>
+    <p>Compare todos os investimentos com seus valores reais</p>
+  </div>
+  <div class="calc-body">
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label>Valor inicial (R$)</label>
+        <input class="calc-input" type="number" id="cInicial" value="10000" min="0">
+      </div>
+      <div class="calc-field">
+        <label>Aporte mensal (R$)</label>
+        <input class="calc-input" type="number" id="cMensal" value="500" min="0">
+      </div>
+      <div class="calc-field">
+        <label>Prazo</label>
+        <select class="calc-select" id="cPrazo">
+          <option value="5">5 anos</option>
+          <option value="10" selected>10 anos</option>
+          <option value="15">15 anos</option>
+          <option value="20">20 anos</option>
+          <option value="30">30 anos</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label>Inflação estimada (% a.a.)</label>
+        <input class="calc-input" type="number" id="cInflacao" value="4.5" step="0.1">
+      </div>
+    </div>
+    <button class="btn-calc" onclick="calcular()">
+      <span>📊</span> Calcular e comparar todos os investimentos
+    </button>
+
+    <div class="calc-results" id="calcResults">
+      <h3 style="font-family:var(--serif);font-size:1.1rem;font-weight:800;margin-bottom:1rem">Resultado por investimento</h3>
+      <div class="results-grid" id="resultsGrid"></div>
+      <div style="height:300px;position:relative;margin-top:1.5rem">
+        <canvas id="calcChart"></canvas>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.8rem;text-align:center">* Simulação com taxas atuais. Rentabilidade passada não garante resultados futuros. IR deduzido conforme tabela regressiva.</p>
+    </div>
+  </div>
+</div>
+
+<div class="callout blue">
+  <div class="callout-icon">📌</div>
+  <p><strong>Sobre o IR regressivo:</strong> Quanto mais tempo você deixa o dinheiro investido, menos imposto paga. Acima de 2 anos, o IR cai para 15% — a menor alíquota. Por isso investimentos de longo prazo compensam ainda mais.</p>
+</div>
+
+<h2 id="quando-usar">Quando usar cada investimento?</h2>
+
+<h3>🟢 Tesouro Reserva — Para sua reserva de emergência</h3>
+<p>Ideal para os 3-6 meses de despesas que todo brasileiro deveria ter guardado. Combina segurança máxima com liquidez imediata — saca quando quiser sem perder rendimento.</p>
+
+<h3>🔵 Tesouro SELIC — Para objetivos de curto/médio prazo</h3>
+<p>Muito similar ao Reserva, mas com leve oscilação de preço no curto prazo. Indicado para objetivos de 6 meses a 2 anos — viagem, troca de carro, entrada de imóvel.</p>
+
+<h3>🟡 CDB — Para rentabilidade maior com prazo definido</h3>
+<p>CDBs de bancos menores pagam 110-120% do CDI (vs 100% no Tesouro), mas exigem prazo fixo. Se você sabe que não vai precisar do dinheiro em 1-2 anos, pode valer a pena.</p>
+
+<h3>🔷 ETF de Renda Fixa — Para quem já tem reserva e quer diversificar</h3>
+<p>IMAB11 e B5P211 são ETFs que investem em títulos públicos indexados à inflação. Para horizontes de 5+ anos, protegem o poder de compra de forma eficiente e com baixa taxa.</p>
+
+<h3>🔴 Poupança — Evite</h3>
+<p>Com a SELIC acima de 8,5%, não existe justificativa técnica para manter dinheiro na poupança. A isenção de IR não compensa a diferença de rentabilidade. Migre para o Tesouro Reserva.</p>
+
+<div class="callout red">
+  <div class="callout-icon">🚨</div>
+  <p><strong>Poupança x Tesouro Reserva:</strong> Quem tem R$50.000 na poupança está perdendo aproximadamente <strong>R$1.600 por ano</strong> comparado ao Tesouro Reserva. Em 10 anos, essa diferença acumulada passa de R$25.000.</p>
+</div>
+
+<!-- ENQUETE PERFIL DE INVESTIDOR -->
+<h2 id="perfil">Qual é o seu perfil de investidor?</h2>
+<p>Antes de investir, é fundamental conhecer seu perfil de risco. Responda 5 perguntas e descubra qual estratégia é ideal para você — e se a mentoria do Antero pode te ajudar a acelerar os resultados.</p>
+
+<div class="quiz-section">
+  <div class="quiz-header">
+    <h3>🧠 Análise de Perfil de Investidor</h3>
+    <p>5 perguntas · 2 minutos · Resultado personalizado com recomendações</p>
+  </div>
+  <div class="quiz-body">
+    <div class="quiz-progress"><div class="quiz-bar" id="quizBar" style="width:0%"></div></div>
+
+    <!-- Q1 -->
+    <div class="quiz-step active" id="q1">
+      <div class="quiz-q">1. Como você reage quando seus investimentos caem 10% em um mês?</div>
+      <div class="quiz-qsub">Seja honesto — não existe resposta certa ou errada</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this,1,'conservador')">
+          <div class="quiz-opt-icon">😰</div>
+          <div>Fico muito preocupado e penso em resgatar tudo imediatamente</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,1,'moderado')">
+          <div class="quiz-opt-icon">😐</div>
+          <div>Fico um pouco ansioso, mas aguardo para ver o que acontece</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,1,'arrojado')">
+          <div class="quiz-opt-icon">😎</div>
+          <div>Vejo como oportunidade de comprar mais barato</div>
+        </div>
+      </div>
+      <div class="quiz-nav">
+        <span class="quiz-step-label">Pergunta 1 de 5</span>
+        <button class="btn-quiz next" onclick="nextQ(2)">Próxima →</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-step" id="q2">
+      <div class="quiz-q">2. Qual é seu principal objetivo financeiro agora?</div>
+      <div class="quiz-qsub">Escolha o que mais se aproxima da sua realidade</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this,2,'conservador')">
+          <div class="quiz-opt-icon">🛡️</div>
+          <div>Montar ou completar minha reserva de emergência</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,2,'moderado')">
+          <div class="quiz-opt-icon">🏠</div>
+          <div>Juntar para um objetivo em 2-5 anos (imóvel, carro, viagem)</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,2,'arrojado')">
+          <div class="quiz-opt-icon">📈</div>
+          <div>Construir patrimônio para aposentadoria no longo prazo</div>
+        </div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-quiz back" onclick="prevQ(1)">← Voltar</button>
+        <span class="quiz-step-label">Pergunta 2 de 5</span>
+        <button class="btn-quiz next" onclick="nextQ(3)">Próxima →</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-step" id="q3">
+      <div class="quiz-q">3. Quanto da sua renda mensal você consegue investir?</div>
+      <div class="quiz-qsub">Considere uma média dos últimos 3 meses</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this,3,'conservador')">
+          <div class="quiz-opt-icon">💸</div>
+          <div>Menos de 5% — ainda estou organizando as finanças</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,3,'moderado')">
+          <div class="quiz-opt-icon">💰</div>
+          <div>Entre 5% e 20% da renda mensal</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,3,'arrojado')">
+          <div class="quiz-opt-icon">🚀</div>
+          <div>Mais de 20% — priorizo investir o máximo possível</div>
+        </div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-quiz back" onclick="prevQ(2)">← Voltar</button>
+        <span class="quiz-step-label">Pergunta 3 de 5</span>
+        <button class="btn-quiz next" onclick="nextQ(4)">Próxima →</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-step" id="q4">
+      <div class="quiz-q">4. Qual é o seu nível de conhecimento sobre investimentos?</div>
+      <div class="quiz-qsub">Seja realista — isso define a estratégia ideal</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this,4,'conservador')">
+          <div class="quiz-opt-icon">📚</div>
+          <div>Iniciante — conheço basicamente poupança e CDB</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,4,'moderado')">
+          <div class="quiz-opt-icon">📊</div>
+          <div>Intermediário — já invisto em Tesouro Direto e alguns fundos</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,4,'arrojado')">
+          <div class="quiz-opt-icon">💼</div>
+          <div>Avançado — tenho carteira diversificada incluindo ações e FIIs</div>
+        </div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-quiz back" onclick="prevQ(3)">← Voltar</button>
+        <span class="quiz-step-label">Pergunta 4 de 5</span>
+        <button class="btn-quiz next" onclick="nextQ(5)">Próxima →</button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-step" id="q5">
+      <div class="quiz-q">5. Por quanto tempo você pode deixar o dinheiro investido sem precisar?</div>
+      <div class="quiz-qsub">Considere imprevistos — seja conservador na estimativa</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this,5,'conservador')">
+          <div class="quiz-opt-icon">📅</div>
+          <div>Menos de 1 ano — posso precisar a qualquer momento</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,5,'moderado')">
+          <div class="quiz-opt-icon">🗓️</div>
+          <div>Entre 1 e 5 anos — tenho reserva de emergência separada</div>
+        </div>
+        <div class="quiz-opt" onclick="selectOpt(this,5,'arrojado')">
+          <div class="quiz-opt-icon">🏖️</div>
+          <div>Mais de 5 anos — estou construindo para o futuro</div>
+        </div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-quiz back" onclick="prevQ(4)">← Voltar</button>
+        <span class="quiz-step-label">Pergunta 5 de 5</span>
+        <button class="btn-quiz next" onclick="showResult()">Ver meu perfil →</button>
+      </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="quiz-result" id="quizResult">
+      <div class="result-emoji" id="rEmoji">🛡️</div>
+      <div class="result-profile" id="rProfile">Perfil Conservador</div>
+      <p class="result-desc" id="rDesc"></p>
+      <div class="result-recs">
+        <div class="result-recs-title">📋 Carteira recomendada para o seu perfil:</div>
+        <div id="rRecs"></div>
+      </div>
+      <button class="btn-mentoria-cta" onclick="scrollToMentoria()">
+        🎯 Quero uma análise personalizada com Antero →
+      </button>
+      <button class="btn-refazer" onclick="resetQuiz()">Refazer o questionário</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ══════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════ -->
+<aside class="sidebar">
+
+  <!-- ÍNDICE -->
+  <div class="widget">
+    <div class="widget-head">📋 Índice do Artigo</div>
+    <div class="widget-body">
+      <ul class="toc-list">
+        <li><a href="#o-que-e">O que é o Tesouro Reserva?</a></li>
+        <li><a href="#comparativo">Os 6 investimentos</a></li>
+        <li><a href="#tabela">Tabela comparativa</a></li>
+        <li><a href="#graficos">Gráficos de projeção</a></li>
+        <li><a href="#resultados">Resultado por prazo</a></li>
+        <li><a href="#calculadora">Calculadora interativa</a></li>
+        <li><a href="#quando-usar">Quando usar cada um</a></li>
+        <li><a href="#perfil">Seu perfil de investidor</a></li>
+        <li><a href="#mentoria">Mentoria com Antero</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AD SLOT SIDEBAR -->
+  <div class="ad-slot sq"><span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Publicidade</span><span style="font-size:.8rem">AdSense 300×250</span></div>
+
+  <!-- LINKS AFILIADO -->
+  <div class="widget">
+    <div class="widget-head">💳 Onde investir agora</div>
+    <div class="widget-body">
+      <a class="widget-link" href="https://www.rico.com.vc/?tag=valoredinhe06-20" target="_blank" rel="noopener">
+        <span>🟢 Rico — Tesouro Direto taxa zero</span>
+        <span class="widget-link-arrow">→</span>
+      </a>
+      <a class="widget-link" href="https://inter.co/?tag=valoredinhe06-20" target="_blank" rel="noopener">
+        <span>🟠 Inter — CDB 100% CDI + cashback</span>
+        <span class="widget-link-arrow">→</span>
+      </a>
+      <a class="widget-link" href="https://www.xpi.com.br/?tag=valoredinhe06-20" target="_blank" rel="noopener">
+        <span>🔵 XP — Maior plataforma BR</span>
+        <span class="widget-link-arrow">→</span>
+      </a>
+      <a class="widget-link" href="https://www.nubank.com.br/?tag=valoredinhe06-20" target="_blank" rel="noopener">
+        <span>💜 Nubank — Reserva integrada</span>
+        <span class="widget-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- TAXA SELIC ATUAL -->
+  <div class="widget">
+    <div class="widget-head">📡 Taxas de hoje</div>
+    <div class="widget-body">
+      <div style="display:flex;flex-direction:column;gap:.6rem">
+        <div style="display:flex;justify-content:space-between;font-size:.83rem;padding:.4rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--muted)">SELIC Meta</span>
+          <span style="font-family:var(--mono);font-weight:600;color:var(--accent)">10,75%</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.83rem;padding:.4rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--muted)">CDI</span>
+          <span style="font-family:var(--mono);font-weight:600;color:var(--accent)">10,65%</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.83rem;padding:.4rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--muted)">IPCA (12m)</span>
+          <span style="font-family:var(--mono);font-weight:600;color:var(--gold)">4,83%</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.83rem;padding:.4rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--muted)">Poupança</span>
+          <span style="font-family:var(--mono);font-weight:600;color:var(--red)">7,45%</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.83rem;padding:.4rem 0">
+          <span style="color:var(--muted)">Próx. COPOM</span>
+          <span style="font-weight:700;font-size:.78rem">18/jun/2025</span>
+        </div>
+      </div>
+      <p style="font-size:.7rem;color:var(--muted);margin-top:.8rem">Atualizado: maio/2025</p>
+    </div>
+  </div>
+
+  <div class="ad-slot sq"><span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Publicidade</span><span style="font-size:.8rem">AdSense 300×250</span></div>
+
+</aside>
+
+</div><!-- /layout -->
+</div><!-- /container -->
+
+<!-- ══════════════════════════════════════
+     SEÇÃO MENTORIA
+══════════════════════════════════════ -->
+<div class="container">
+<div class="mentoria-section" id="mentoria">
+  <div class="mentoria-inner">
+    <div class="mentoria-tag">🎯 Mentoria Personalizada</div>
+    <h2 class="mentoria-title">Deixe <em>Antero de Mendonça</em><br>analisar sua carteira</h2>
+    <p class="mentoria-sub">Cada real conta. Uma estratégia errada pode custar anos de rendimento. Com a mentoria certa, você para de adivinhar e começa a construir patrimônio com método — mesmo começando do zero.</p>
+
+    <div class="plans-grid">
+
+      <!-- PLANO STARTER -->
+      <div class="plan-card">
+        <div class="plan-name">🌱 Starter</div>
+        <div class="plan-price">R$97<span>/mês</span></div>
+        <ul class="plan-features">
+          <li>Acesso à comunidade exclusiva no Telegram</li>
+          <li>2 análises de carteira por mês</li>
+          <li>Relatório mensal de oportunidades</li>
+          <li>Calculadoras e planilhas exclusivas</li>
+          <li>Suporte por mensagem (resposta em 48h)</li>
+        </ul>
+        <button class="btn-plan ghost" onclick="showToast('Em breve! Cadastre seu e-mail para ser avisado.')">Quero o Starter</button>
+      </div>
+
+      <!-- PLANO PRO (destaque) -->
+      <div class="plan-card featured">
+        <div class="plan-popular">⭐ Mais escolhido</div>
+        <div class="plan-name">🚀 Pro — Mentoria Ativa</div>
+        <div class="plan-price">R$297<span>/mês</span></div>
+        <ul class="plan-features">
+          <li>Tudo do Starter</li>
+          <li>1 sessão mensal ao vivo (60 min) com Antero</li>
+          <li>Análise completa da sua carteira atual</li>
+          <li>Plano de ação personalizado por objetivo</li>
+          <li>Alertas de oportunidades em tempo real</li>
+          <li>Suporte por mensagem prioritário (24h)</li>
+          <li>Acesso ao histórico de análises anteriores</li>
+        </ul>
+        <button class="btn-plan primary" onclick="showToast('Em breve! Cadastre seu e-mail para ser avisado.')">Quero a Mentoria Pro</button>
+      </div>
+
+      <!-- PLANO VIP -->
+      <div class="plan-card">
+        <div class="plan-name">👑 VIP — Gestão de Carteira</div>
+        <div class="plan-price">R$797<span>/mês</span></div>
+        <ul class="plan-features">
+          <li>Tudo do Pro</li>
+          <li>4 sessões mensais ao vivo com Antero</li>
+          <li>Gestão ativa e rebalanceamento trimestral</li>
+          <li>Acesso direto via WhatsApp</li>
+          <li>Relatório de performance mensal detalhado</li>
+          <li>Planejamento tributário integrado</li>
+          <li>Vagas limitadas — máximo 10 alunos</li>
+        </ul>
+        <button class="btn-plan gold-btn" onclick="showToast('Entre em contato: antero@valoredinheiro.com.br')">Quero o VIP</button>
+      </div>
+
+    </div>
+
+    <!-- GARANTIA -->
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="font-size:2.5rem">🛡️</div>
+      <div>
+        <div style="font-weight:800;font-size:.95rem;margin-bottom:.2rem">Garantia de 7 dias</div>
+        <div style="font-size:.82rem;color:#B8AFA0;line-height:1.5">Se em 7 dias você não sentir que valeu cada centavo, devolvemos 100% sem perguntas. Sem burocracia, sem justificativa.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- AD SLOT FINAL -->
+<div class="container">
+  <div class="ad-slot h"><span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Publicidade</span><span>Google AdSense 728×90</span></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong style="color:white">ValoreDinheiro.com.br</strong> — Por Antero de Mendonça, Rio de Janeiro</p>
+  <p style="margin-top:.4rem"><a href="index.html">← Voltar ao blog</a> · <a href="#">Política de Privacidade</a> · <a href="#">Termos de Uso</a></p>
+  <p style="margin-top:.8rem;font-size:.7rem;opacity:.6">⚠️ Conteúdo informativo. Não constitui consultoria financeira regulada. Investimentos envolvem riscos. Este site contém links de afiliados — valoredinhe06-20.</p>
+</footer>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120px);background:#1C1509;color:white;padding:.75rem 1.5rem;border-radius:100px;font-family:var(--sans);font-size:.85rem;font-weight:600;z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;max-width:90vw;text-align:center"></div>
+
+<script>
+// ══════════════════════════════════
+// DADOS
+// ══════════════════════════════════
+const RATES = {
+  reserva: 0.1065,
+  selic:   0.1065,
+  cdb:     0.1040,
+  poup:    0.0745,
+  fundo:   0.0980,
+  etf:     0.1020
+};
+const IR = { reserva:0.15, selic:0.15, cdb:0.15, poup:0, fundo:0.15, etf:0.15 };
+const LABELS = { reserva:'T. Reserva', selic:'T. SELIC', cdb:'CDB', poup:'Poupança', fundo:'Fundo DI', etf:'ETF RF' };
+const COLORS = { reserva:'#1B6B3A', selic:'#0052CC', cdb:'#C49A1A', poup:'#C0392B', fundo:'#5B21B6', etf:'#0891B2' };
+
+// ── JUROS COMPOSTOS ──
+function calcFV(principal, monthly, rate, years, ir) {
+  const r = rate / 12;
+  const n = years * 12;
+  let fv = principal * Math.pow(1+r, n);
+  if (monthly > 0) fv += monthly * (Math.pow(1+r,n)-1)/r;
+  const gain = fv - principal - (monthly * n);
+  const net = fv - gain * ir;
+  return Math.round(net);
+}
+
+// ── GRÁFICO PRINCIPAL ──
+let mainChart = null;
+let currentPeriod = 5;
+
+function buildMainData(years) {
+  const labels = [];
+  for (let y = 0; y <= years; y++) labels.push(y === 0 ? 'Hoje' : `Ano ${y}`);
+  const datasets = Object.keys(RATES).map(k => ({
+    label: LABELS[k],
+    borderColor: COLORS[k],
+    backgroundColor: COLORS[k]+'22',
+    borderWidth: 2.5,
+    pointRadius: 3,
+    tension: 0.4,
+    fill: false,
+    data: labels.map((_,i) => calcFV(10000, 0, RATES[k], i, IR[k]))
+  }));
+  return { labels, datasets };
+}
+
+function initMainChart() {
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  const data = buildMainData(currentPeriod);
+  mainChart = new Chart(ctx, {
+    type: 'line',
+    data,
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}` }
+      }},
+      scales: {
+        y: { ticks: { callback: v => 'R$'+v.toLocaleString('pt-BR'), font:{size:10} }, grid:{color:'#E8E0D0'} },
+        x: { grid:{color:'#E8E0D0'}, ticks:{font:{size:10}} }
+      }
+    }
+  });
+}
+
+function setChartPeriod(years, btn) {
+  currentPeriod = years;
+  document.querySelectorAll('.chart-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const data = buildMainData(years);
+  mainChart.data = data;
+  mainChart.update();
+}
+
+// ── CALCULADORA ──
+let calcChart = null;
+
+function calcular() {
+  const inicial  = parseFloat(document.getElementById('cInicial').value) || 0;
+  const mensal   = parseFloat(document.getElementById('cMensal').value) || 0;
+  const prazo    = parseInt(document.getElementById('cPrazo').value);
+  const inflacao = parseFloat(document.getElementById('cInflacao').value)/100;
+
+  const keys = Object.keys(RATES);
+  const results = {};
+  keys.forEach(k => { results[k] = calcFV(inicial, mensal, RATES[k], prazo, IR[k]); });
+
+  const winner = keys.reduce((a,b) => results[a] > results[b] ? a : b);
+  const totalInvested = inicial + mensal * prazo * 12;
+
+  // Render cards
+  const grid = document.getElementById('resultsGrid');
+  grid.innerHTML = keys.map(k => `
+    <div class="result-card ${k===winner?'winner':''}">
+      <div class="result-label" style="color:${COLORS[k]}">${LABELS[k]}</div>
+      <div class="result-value ${k===winner?'winner':''}">${fmt(results[k])}</div>
+      <div class="result-gain">+${fmt(results[k]-totalInvested)} de ganho</div>
+    </div>
+  `).join('');
+
+  // Render chart
+  const res = document.getElementById('calcResults');
+  res.style.display = 'block';
+
+  if (calcChart) calcChart.destroy();
+  const ctx2 = document.getElementById('calcChart').getContext('2d');
+  calcChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: keys.map(k=>LABELS[k]),
+      datasets: [{
+        data: keys.map(k=>results[k]),
+        backgroundColor: keys.map(k=>COLORS[k]+'CC'),
+        borderColor: keys.map(k=>COLORS[k]),
+        borderWidth: 2, borderRadius: 6
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},
+      scales:{
+        y:{ticks:{callback:v=>'R$'+v.toLocaleString('pt-BR'),font:{size:9}},grid:{color:'#E8E0D0'}},
+        x:{ticks:{font:{size:9}}}
+      }
+    }
+  });
+
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── QUIZ ──
+const quizAnswers = {};
+
+function selectOpt(el, q, perfil) {
+  el.closest('.quiz-options').querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  quizAnswers[q] = perfil;
+}
+
+function nextQ(n) {
+  if (n <= 5) {
+    document.getElementById('q'+(n-1)).classList.remove('active');
+    document.getElementById('q'+n).classList.add('active');
+    document.getElementById('quizBar').style.width = ((n-1)/5*100)+'%';
+  }
+}
+
+function prevQ(n) {
+  document.getElementById('q'+(n+1)).classList.remove('active');
+  document.getElementById('q'+n).classList.add('active');
+  document.getElementById('quizBar').style.width = ((n-1)/5*100)+'%';
+}
+
+function showResult() {
+  const scores = { conservador:0, moderado:0, arrojado:0 };
+  Object.values(quizAnswers).forEach(v => { if(scores[v]!==undefined) scores[v]++; });
+  const perfil = Object.keys(scores).reduce((a,b)=>scores[a]>scores[b]?a:b);
+
+  const profiles = {
+    conservador: {
+      emoji:'🛡️', name:'Perfil Conservador',
+      desc:'Você prioriza segurança e previsibilidade. Seu foco é proteger o patrimônio com baixíssimo risco. Isso é totalmente válido — e existem ótimas opções para você crescer com tranquilidade.',
+      recs:[
+        {color:'#1B6B3A',text:'70% Tesouro Reserva — reserva de emergência + segurança'},
+        {color:'#0052CC',text:'20% CDB de banco grande — rentabilidade com proteção FGC'},
+        {color:'#C49A1A',text:'10% Tesouro IPCA+ — proteção contra inflação no longo prazo'},
+      ]
+    },
+    moderado: {
+      emoji:'⚖️', name:'Perfil Moderado',
+      desc:'Você aceita alguma oscilação em troca de rentabilidade maior. Sua carteira ideal combina segurança com crescimento — o equilíbrio perfeito para a maioria dos brasileiros.',
+      recs:[
+        {color:'#1B6B3A',text:'40% Tesouro Reserva / SELIC — base segura e líquida'},
+        {color:'#C49A1A',text:'30% CDB / Tesouro IPCA+ — rentabilidade real acima da inflação'},
+        {color:'#5B21B6',text:'20% FIIs ou ETF de renda fixa — diversificação e renda passiva'},
+        {color:'#0891B2',text:'10% Ações de empresas sólidas — crescimento de longo prazo'},
+      ]
+    },
+    arrojado: {
+      emoji:'🚀', name:'Perfil Arrojado',
+      desc:'Você pensa no longo prazo e aceita volatilidade para maximizar retornos. Com horizonte de 5+ anos, sua carteira pode ter maior exposição à renda variável para resultados expressivos.',
+      recs:[
+        {color:'#1B6B3A',text:'20% Tesouro Reserva — reserva de emergência intocável'},
+        {color:'#0891B2',text:'30% ETFs de ações (BOVA11, IVVB11) — crescimento global'},
+        {color:'#5B21B6',text:'25% FIIs — renda passiva mensal com isenção de IR'},
+        {color:'#C49A1A',text:'25% Ações selecionadas — potencial de valorização expressiva'},
+      ]
+    }
+  };
+
+  const p = profiles[perfil];
+  document.getElementById('rEmoji').textContent = p.emoji;
+  document.getElementById('rProfile').textContent = p.name;
+  document.getElementById('rDesc').textContent = p.desc;
+  document.getElementById('rRecs').innerHTML = p.recs.map(r=>`
+    <div class="result-rec-item">
+      <div class="rec-dot" style="background:${r.color}"></div>
+      <span>${r.text}</span>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('quizBar').style.width = '100%';
+  document.getElementById('quizResult').style.display = 'block';
+}
+
+function resetQuiz() {
+  Object.keys(quizAnswers).forEach(k=>delete quizAnswers[k]);
+  document.getElementById('quizResult').style.display = 'none';
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('quizBar').style.width = '0%';
+  document.getElementById('q1').classList.add('active');
+}
+
+function scrollToMentoria() {
+  document.getElementById('mentoria').scrollIntoView({behavior:'smooth'});
+}
+
+// ── UTILS ──
+function fmt(v) { return 'R$ '+Math.round(v).toLocaleString('pt-BR'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(()=>t.style.transform='translateX(-50%) translateY(120px)', 4000);
+}
+
+// PROGRESS BAR
+window.addEventListener('scroll',()=>{
+  const pct = window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  document.getElementById('pb').style.width = pct+'%';
+});
+
+// ── INIT ──
+window.addEventListener('load', initMainChart);
+</script>
+</body>
+</html>
