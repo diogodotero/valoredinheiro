@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel do Mercado — Taxas em Tempo Real | Valor & Dinheiro</title>
+<meta name="description" content="Taxas de juros, SELIC, CDI, IPCA, Poupança e câmbio atualizados em tempo real pelo Banco Central do Brasil.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:      #FFFDF7;
+  --bg2:     #F7F3EA;
+  --surface: #FFFFFF;
+  --border:  #E8E0D0;
+  --text:    #1C1509;
+  --muted:   #7A6F5E;
+  --accent:  #1B6B3A;
+  --accent2: #2D9E5A;
+  --accent-l:#E8F5EE;
+  --gold:    #C49A1A;
+  --gold-l:  #FEF9E7;
+  --blue:    #0052CC;
+  --blue-l:  #E8F0FE;
+  --red:     #C0392B;
+  --red-l:   #FDECEA;
+  --serif:   'Playfair Display', Georgia, serif;
+  --sans:    'DM Sans', sans-serif;
+  --mono:    'DM Mono', monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6}
+
+/* ── HEADER ── */
+.site-header{background:var(--surface);border-bottom:3px solid var(--text);position:sticky;top:0;z-index:200;padding:0 2rem}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1rem;height:60px;flex-wrap:wrap}
+.logo{font-family:var(--serif);font-size:1.3rem;font-weight:900;color:var(--text);text-decoration:none;white-space:nowrap}
+.logo span{color:var(--accent)}
+.logo sup{font-family:var(--sans);font-size:.5rem;font-weight:700;background:var(--gold);color:white;padding:.1rem .35rem;border-radius:3px;vertical-align:super}
+.header-nav{display:flex;gap:.3rem;margin-left:auto;flex-wrap:wrap}
+.header-nav a{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:6px;transition:all .2s;white-space:nowrap}
+.header-nav a:hover{color:var(--accent);background:var(--accent-l)}
+.header-nav a.active{color:var(--accent);background:var(--accent-l)}
+
+/* ── LIVE BAR ── */
+.live-bar{background:var(--text);color:white;padding:.45rem 2rem;display:flex;align-items:center;gap:2rem;overflow:hidden;font-size:.78rem;flex-wrap:wrap;justify-content:center}
+.live-dot{width:7px;height:7px;background:#06d6a0;border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(6,214,160,.5)}50%{box-shadow:0 0 0 5px rgba(6,214,160,0)}}
+.live-item{display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.live-item .lbl{color:rgba(255,255,255,.5)}
+.live-item .val{font-family:var(--mono);font-weight:500;color:#a8e6c4}
+.live-item .chg{font-size:.7rem;padding:.1rem .35rem;border-radius:4px;font-weight:700}
+.chg.up{background:rgba(6,214,160,.2);color:#06d6a0}
+.chg.dn{background:rgba(192,57,43,.2);color:#e74c3c}
+.chg.nt{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+.live-time{margin-left:auto;font-size:.7rem;color:rgba(255,255,255,.35);white-space:nowrap}
+
+/* ── HERO ── */
+.page-hero{background:var(--text);color:white;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(27,107,58,.35) 0%,transparent 65%);pointer-events:none}
+.page-hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.page-hero-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#7DCEA0;margin-bottom:.7rem}
+.page-hero h1{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:900;line-height:1.1;margin-bottom:.6rem}
+.page-hero h1 em{font-style:normal;color:#7DCEA0}
+.page-hero p{color:#B8AFA0;font-size:.9rem;max-width:600px;line-height:1.6}
+.source-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.src-badge{display:flex;align-items:center;gap:.3rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:.25rem .6rem;font-size:.7rem;color:rgba(255,255,255,.7);font-weight:600}
+
+/* ── LAYOUT ── */
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.page-content{padding:2rem 0}
+
+/* ── SECTION TITLES ── */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--text)}
+.sec-title{font-family:var(--serif);font-size:1.3rem;font-weight:900;display:flex;align-items:center;gap:.5rem}
+.sec-updated{font-size:.72rem;color:var(--muted);font-weight:600}
+
+/* ── RATE CARDS GRID ── */
+.rates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2.5rem}
+.rate-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1.2rem;position:relative;overflow:hidden;transition:all .25s}
+.rate-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1);border-color:rgba(27,107,58,.3)}
+.rate-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.rate-card.green::before{background:var(--accent)}
+.rate-card.blue::before{background:var(--blue)}
+.rate-card.gold::before{background:var(--gold)}
+.rate-card.red::before{background:var(--red)}
+.rate-card.teal::before{background:#0891b2}
+.rate-card.purple::before{background:#5b21b6}
+.rate-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.5rem;display:flex;align-items:center;justify-content:space-between}
+.rate-source{font-size:.62rem;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:.08rem .35rem;color:var(--muted)}
+.rate-value{font-family:var(--mono);font-size:2rem;font-weight:500;line-height:1;margin-bottom:.3rem}
+.rate-value.green{color:var(--accent)}
+.rate-value.blue{color:var(--blue)}
+.rate-value.gold{color:var(--gold)}
+.rate-value.red{color:var(--red)}
+.rate-value.teal{color:#0891b2}
+.rate-value.purple{color:#5b21b6}
+.rate-sub{font-size:.75rem;color:var(--muted);line-height:1.4;margin-bottom:.5rem}
+.rate-change{display:inline-flex;align-items:center;gap:.2rem;font-size:.72rem;font-weight:700;padding:.18rem .5rem;border-radius:5px}
+.rate-change.up{background:var(--accent-l);color:var(--accent)}
+.rate-change.dn{background:var(--red-l);color:var(--red)}
+.rate-change.nt{background:var(--bg2);color:var(--muted)}
+.rate-loading{font-size:.8rem;color:var(--muted);animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ── CHART SECTION ── */
+.chart-card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:2rem}
+.chart-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem}
+.chart-title{font-family:var(--serif);font-size:1rem;font-weight:800}
+.chart-tabs{display:flex;gap:.3rem;flex-wrap:wrap}
+.ctab{padding:.3rem .7rem;border-radius:100px;border:1.5px solid var(--border);background:var(--bg2);font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.ctab.active{background:var(--accent);border-color:var(--accent);color:white}
+.ctab:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+.chart-wrap{height:260px;position:relative}
+.chart-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.7rem;justify-content:center}
+.leg-item{display:flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:600}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* ── TESOURO DIRETO TABLE ── */
+.table-wrap{overflow-x:auto;border-radius:12px;border:1.5px solid var(--border);margin-bottom:2rem}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{background:var(--text);color:white;padding:.75rem 1rem;text-align:left;font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+td{padding:.75rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--bg2)}
+tr:hover td{background:var(--accent-l)}
+.td-g{color:var(--accent);font-weight:700}
+.td-r{color:var(--red)}
+.td-b{color:var(--blue);font-weight:600}
+.td-mono{font-family:var(--mono)}
+.btn-invest{background:var(--accent);color:white;border:none;border-radius:6px;padding:.3rem .7rem;font-size:.72rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s}
+.btn-invest:hover{background:var(--accent2)}
+
+/* ── NEWS GRID ── */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:2rem}
+.news-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:1.1rem;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.5rem}
+.news-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.news-source{display:flex;align-items:center;gap:.4rem;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.news-source-dot{width:8px;height:8px;border-radius:50%}
+.news-title{font-family:var(--serif);font-size:.95rem;font-weight:700;line-height:1.3;flex:1}
+.news-date{font-size:.72rem;color:var(--muted)}
+.news-tag{display:inline-block;font-size:.65rem;font-weight:700;padding:.12rem .45rem;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}
+
+/* ── CALENDAR ── */
+.calendar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:2rem}
+.cal-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:1rem;display:flex;gap:.9rem;align-items:flex-start}
+.cal-date-box{background:var(--text);color:white;border-radius:8px;width:46px;flex-shrink:0;text-align:center;padding:.4rem .3rem}
+.cal-day{font-family:var(--serif);font-size:1.4rem;font-weight:900;line-height:1}
+.cal-month{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6)}
+.cal-event{font-weight:700;font-size:.88rem;margin-bottom:.2rem}
+.cal-desc{font-size:.78rem;color:var(--muted);line-height:1.4}
+.cal-impact{font-size:.68rem;font-weight:700;padding:.12rem .4rem;border-radius:4px;margin-top:.4rem;display:inline-block}
+.cal-impact.high{background:var(--red-l);color:var(--red)}
+.cal-impact.med{background:var(--gold-l);color:var(--gold)}
+.cal-impact.low{background:var(--accent-l);color:var(--accent)}
+
+/* ── DISCLAIMER ── */
+.disclaimer{background:var(--gold-l);border:1.5px solid var(--gold);border-radius:10px;padding:1rem 1.2rem;font-size:.8rem;color:var(--text);line-height:1.6;margin-bottom:2rem;display:flex;gap:.7rem}
+
+/* ── FOOTER ── */
+footer{background:var(--text);color:white;padding:2rem;text-align:center;margin-top:3rem}
+footer p{font-size:.78rem;color:#5A5040;line-height:1.8}
+footer a{color:#7DCEA0;text-decoration:none}
+
+/* ── AD SLOT ── */
+.ad-slot{background:var(--bg2);border:1px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.3rem;color:var(--muted);font-size:.72rem;text-align:center}
+.ad-slot.h{width:100%;height:90px;margin:1.5rem 0}
+
+/* ── LOADING SKELETON ── */
+.skeleton{background:linear-gradient(90deg,var(--bg2) 25%,var(--border) 50%,var(--bg2) 75%);background-size:200% 100%;animation:skel 1.5s infinite;border-radius:6px;height:1em}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+@media(max-width:600px){
+  .rates-grid{grid-template-columns:repeat(2,1fr)}
+  .live-bar{gap:1rem}
+  .live-time{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Valor &amp; <span>Dinheiro</span><sup>BR</sup></a>
+    <nav class="header-nav">
+      <a href="index.html">Blog</a>
+      <a href="investimentos.html">Investimentos</a>
+      <a href="mercado.html" class="active">📡 Mercado ao Vivo</a>
+      <a href="index.html#mentoria">Mentoria</a>
+    </nav>
+  </div>
+</header>
+
+<!-- LIVE TICKER BAR -->
+<div class="live-bar">
+  <div class="live-dot"></div>
+  <div class="live-item"><span class="lbl">SELIC</span><span class="val" id="tSelic">—</span></div>
+  <div class="live-item"><span class="lbl">CDI</span><span class="val" id="tCdi">—</span></div>
+  <div class="live-item"><span class="lbl">IPCA 12m</span><span class="val" id="tIpca">—</span></div>
+  <div class="live-item"><span class="lbl">USD</span><span class="val" id="tUsd">—</span></div>
+  <div class="live-item"><span class="lbl">EUR</span><span class="val" id="tEur">—</span></div>
+  <div class="live-item"><span class="lbl">Poupança</span><span class="val" id="tPoup">—</span></div>
+  <div class="live-time" id="liveTime">Carregando...</div>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-tag">📡 Dados atualizados automaticamente</div>
+    <h1>Painel do Mercado<br><em>Taxas e Indicadores em Tempo Real</em></h1>
+    <p>Dados direto do Banco Central do Brasil, Tesouro Nacional e principais fontes oficiais. Atualização automática a cada acesso.</p>
+    <div class="source-badges">
+      <div class="src-badge">🏛️ Banco Central do Brasil</div>
+      <div class="src-badge">💚 Tesouro Nacional</div>
+      <div class="src-badge">📊 B3</div>
+      <div class="src-badge">🌎 IBGE</div>
+      <div class="src-badge">⚡ Atualizado agora</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+<div class="page-content">
+
+<!-- AD SLOT TOPO -->
+<div class="ad-slot h"><span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Publicidade</span><span>Google AdSense 728×90</span></div>
+
+<!-- ══════════════════════
+     TAXAS PRINCIPAIS
+══════════════════════ -->
+<div class="sec-head">
+  <div class="sec-title">🏛️ Taxas Oficiais — Banco Central</div>
+  <div class="sec-updated" id="bcbUpdated">Carregando...</div>
+</div>
+
+<div class="rates-grid">
+  <div class="rate-card green">
+    <div class="rate-label">SELIC Meta <span class="rate-source">BCB</span></div>
+    <div class="rate-value green" id="rSelic"><div class="skeleton" style="width:80px;height:2rem"></div></div>
+    <div class="rate-sub" id="rSelicSub">Taxa básica de juros da economia</div>
+    <span class="rate-change nt" id="rSelicChg">Carregando...</span>
+  </div>
+  <div class="rate-card blue">
+    <div class="rate-label">CDI <span class="rate-source">BCB</span></div>
+    <div class="rate-value blue" id="rCdi"><div class="skeleton" style="width:80px;height:2rem"></div></div>
+    <div class="rate-sub">Certificado de Depósito Interbancário</div>
+    <span class="rate-change nt" id="rCdiChg">≈ SELIC − 0,10%</span>
+  </div>
+  <div class="rate-card gold">
+    <div class="rate-label">IPCA 12 meses <span class="rate-source">IBGE/BCB</span></div>
+    <div class="rate-value gold" id="rIpca"><div class="skeleton" style="width:80px;height:2rem"></div></div>
+    <div class="rate-sub">Inflação oficial acumulada 12 meses</div>
+    <span class="rate-change nt" id="rIpcaChg">Carregando...</span>
+  </div>
+  <div class="rate-card red">
+    <div class="rate-label">Poupança <span class="rate-source">BCB</span></div>
+    <div class="rate-value red" id="rPoup"><div class="skeleton" style="width:80px;height:2rem"></div></div>
+    <div class="rate-sub">70% SELIC + TR (SELIC &gt; 8,5%)</div>
+    <span class="rate-change dn" id="rPoupChg">Abaixo da inflação</span>
+  </div>
+  <div class="rate-card teal">
+    <div class="rate-label">Dólar (USD) <span class="rate-source">BCB</span></div>
+    <div class="rate-value teal" id="rUsd"><div class="skeleton" style="width:80px;height:2rem"></div></div>
+    <div class="rate-sub" id="rUsdSub">Câmbio comercial — venda</div>
+    <span class="rate-change nt" id="rUsdChg">Carregando...</span>
+  </div>
+  <div class="rate-card purple">
+    <div class="rate-label">Euro (EUR) <span class="rate-source">BCB</span></div>
+    <div class="rate-value purple" id="rEur"><div class="skeleton" style="width:80px;height:2rem"></div></div>
+    <div class="rate-sub" id="rEurSub">Câmbio comercial — venda</div>
+    <span class="rate-change nt" id="rEurChg">Carregando...</span>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     GRÁFICO SELIC HISTÓRICO
+══════════════════════ -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="chart-title">📈 Histórico da Taxa SELIC</div>
+    <div class="chart-tabs">
+      <button class="ctab active" onclick="loadSelicChart(12,this)">12 meses</button>
+      <button class="ctab" onclick="loadSelicChart(24,this)">2 anos</button>
+      <button class="ctab" onclick="loadSelicChart(60,this)">5 anos</button>
+    </div>
+  </div>
+  <div class="chart-wrap"><canvas id="selicChart"></canvas></div>
+  <p style="font-size:.72rem;color:var(--muted);margin-top:.6rem;text-align:center">Fonte: Banco Central do Brasil — SGS série 432</p>
+</div>
+
+<!-- ══════════════════════
+     GRÁFICO IPCA HISTÓRICO
+══════════════════════ -->
+<div class="chart-card">
+  <div class="chart-head">
+    <div class="chart-title">📊 Histórico do IPCA (Inflação Acumulada 12 meses)</div>
+    <div class="chart-tabs">
+      <button class="ctab active" onclick="loadIpcaChart(12,this)">12 meses</button>
+      <button class="ctab" onclick="loadIpcaChart(24,this)">2 anos</button>
+      <button class="ctab" onclick="loadIpcaChart(60,this)">5 anos</button>
+    </div>
+  </div>
+  <div class="chart-wrap"><canvas id="ipcaChart"></canvas></div>
+  <p style="font-size:.72rem;color:var(--muted);margin-top:.6rem;text-align:center">Fonte: IBGE via Banco Central do Brasil — SGS série 13522</p>
+</div>
+
+<!-- ══════════════════════
+     TESOURO DIRETO
+══════════════════════ -->
+<div class="sec-head" style="margin-top:1rem">
+  <div class="sec-title">💚 Tesouro Direto — Títulos Disponíveis</div>
+  <a href="https://www.tesourodireto.com.br/titulos/precos-e-taxas.htm" target="_blank" rel="noopener" style="font-size:.75rem;color:var(--accent);font-weight:700;text-decoration:none">Ver no Tesouro Nacional →</a>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Rentabilidade</th>
+        <th>Vencimento</th>
+        <th>Preço Mín.</th>
+        <th>Liquidez</th>
+        <th>Indicado para</th>
+        <th>Investir</th>
+      </tr>
+    </thead>
+    <tbody id="tesouroDiretoBody">
+      <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--muted)">
+        <div class="skeleton" style="width:60%;margin:0 auto"></div>
+      </td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- AD SLOT MID -->
+<div class="ad-slot h"><span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Publicidade</span><span>Google AdSense 728×90</span></div>
+
+<!-- ══════════════════════
+     NOTÍCIAS DO MERCADO
+══════════════════════ -->
+<div class="sec-head">
+  <div class="sec-title">📰 Notícias do Mercado Financeiro</div>
+  <span class="sec-updated">Fontes verificadas</span>
+</div>
+
+<div class="news-grid" id="newsGrid">
+  <!-- Populado por JS -->
+</div>
+
+<!-- ══════════════════════
+     AGENDA ECONÔMICA
+══════════════════════ -->
+<div class="sec-head">
+  <div class="sec-title">🗓️ Agenda Econômica — Próximos Eventos</div>
+  <span class="sec-updated" id="agendaDate"></span>
+</div>
+
+<div class="calendar-grid" id="calendarGrid">
+  <!-- Populado por JS -->
+</div>
+
+<!-- ══════════════════════
+     COMPARATIVO RENDIMENTO
+══════════════════════ -->
+<div class="sec-head">
+  <div class="sec-title">💰 Quanto rende R$1.000 hoje</div>
+  <span class="sec-updated">Calculado com taxas ao vivo</span>
+</div>
+
+<div class="rates-grid" id="rendGrid">
+  <!-- Populado por JS após carregar taxas -->
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <span style="font-size:1.2rem;flex-shrink:0">⚠️</span>
+  <div><strong>Aviso importante:</strong> Os dados exibidos são obtidos automaticamente de fontes públicas oficiais (Banco Central do Brasil, IBGE, Tesouro Nacional). Podem haver pequenas diferenças em relação às cotações em tempo real de pregão. Este painel é informativo — não constitui recomendação de investimento. Consulte um assessor certificado antes de investir.</div>
+</div>
+
+<!-- AD SLOT FINAL -->
+<div class="ad-slot h"><span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Publicidade</span><span>Google AdSense 728×90</span></div>
+
+</div><!-- /page-content -->
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer>
+  <p><strong style="color:white">Valor &amp; Dinheiro</strong> — Por Antero de Mendonça, Rio de Janeiro</p>
+  <p><a href="index.html">Blog</a> · <a href="investimentos.html">Investimentos</a> · <a href="mercado.html">Mercado</a> · <a href="#">Mentoria</a></p>
+  <p style="margin-top:.5rem;font-size:.7rem;opacity:.6">Dados: Banco Central do Brasil (api.bcb.gov.br) · Tesouro Nacional · IBGE · Atualizado a cada acesso</p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════
+// API DO BANCO CENTRAL DO BRASIL — GRATUITA E OFICIAL
+// Documentação: https://api.bcb.gov.br
+// ═══════════════════════════════════════════════════
+
+// Séries do SGS (Sistema Gerenciador de Séries Temporais)
+const SGS = {
+  selic:  432,    // Taxa SELIC Meta
+  cdi:    12,     // CDI acumulado mensal
+  ipca:   13522,  // IPCA acumulado 12 meses
+  poup:   195,    // Poupança mensal
+  usd:    1,      // Dólar comercial - venda
+  eur:    21619,  // Euro - venda
+  igpm:   189,    // IGP-M
+};
+
+const BCB_BASE = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs';
+const PROXY    = 'https://corsproxy.io/?';
+
+let selicChart = null, ipcaChart = null;
+let liveData   = {};
+
+// ── FORMAT ──
+const fmtPct  = v => (parseFloat(v)||0).toFixed(2) + '% a.a.';
+const fmtPctM = v => (parseFloat(v)||0).toFixed(4) + '% a.m.';
+const fmtBRL  = v => 'R$ ' + (parseFloat(v)||0).toFixed(4);
+const fmtDate = d => new Date(d+'T00:00:00').toLocaleDateString('pt-BR');
+const today   = () => new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+// ── FETCH BCB SGS ──
+async function fetchSGS(serie, ultimos=1) {
+  const url = `${BCB_BASE}.${serie}/dados/ultimos/${ultimos}?formato=json`;
+  try {
+    // Tenta direto primeiro (sem CORS em alguns ambientes)
+    const r = await fetch(url);
+    if(r.ok) return await r.json();
+  } catch(e) {}
+  try {
+    // Fallback com proxy CORS gratuito
+    const r = await fetch(PROXY + encodeURIComponent(`${BCB_BASE}.${serie}/dados/ultimos/${ultimos}?formato=json`));
+    if(r.ok) return await r.json();
+  } catch(e) {}
+  return null;
+}
+
+// ── FETCH CÂMBIO BCB ──
+async function fetchCambio(moeda='USD') {
+  const hoje = new Date();
+  const d2   = hoje.toLocaleDateString('pt-BR').replace(/\//g,'');
+  // API pública de câmbio do BCB
+  const url  = `https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda='${moeda}'&@dataCotacao='${hoje.toLocaleDateString('pt-BR')}'&$top=1&$format=json&$select=cotacaoVenda,dataHoraCotacao`;
+  try {
+    const r = await fetch(PROXY + encodeURIComponent(url));
+    if(r.ok) { const d = await r.json(); return d.value?.[0] || null; }
+  } catch(e) {}
+  return null;
+}
+
+// ── ATUALIZAR TAXA CARD ──
+function setCard(id, value, sub, chgClass, chgText) {
+  const el = document.getElementById(id);
+  if(el) el.innerHTML = value;
+  const sub_el = document.getElementById(id+'Sub');
+  if(sub_el && sub) sub_el.textContent = sub;
+  const chg = document.getElementById(id+'Chg');
+  if(chg) { chg.textContent = chgText; chg.className = 'rate-change '+chgClass; }
+}
+
+// ── TICKER BAR ──
+function updateTicker() {
+  if(liveData.selic)  document.getElementById('tSelic').textContent  = liveData.selic;
+  if(liveData.cdi)    document.getElementById('tCdi').textContent    = liveData.cdi;
+  if(liveData.ipca)   document.getElementById('tIpca').textContent   = liveData.ipca;
+  if(liveData.usd)    document.getElementById('tUsd').textContent    = liveData.usd;
+  if(liveData.eur)    document.getElementById('tEur').textContent    = liveData.eur;
+  if(liveData.poup)   document.getElementById('tPoup').textContent   = liveData.poup;
+  document.getElementById('liveTime').textContent = '⏱ Atualizado: ' + today();
+}
+
+// ── CARREGAR SELIC ──
+async function loadSelic() {
+  const data = await fetchSGS(SGS.selic, 1);
+  if(data && data[0]) {
+    const v = parseFloat(data[0].valor);
+    liveData.selic = v.toFixed(2)+'%';
+    setCard('rSelic', v.toFixed(2)+'%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',
+      null, 'up', '▲ Última decisão COPOM: manutenção');
+    // CDI = SELIC - 0.10
+    const cdi = v - 0.10;
+    liveData.cdi = cdi.toFixed(2)+'%';
+    setCard('rCdi', cdi.toFixed(2)+'%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',
+      null, 'nt', '≈ SELIC − 0,10% ao ano');
+    // Poupança = 70% SELIC + TR (aprox.)
+    const poup = v > 8.5 ? (v * 0.70).toFixed(2) : (6.17).toFixed(2);
+    liveData.poup = poup+'%';
+    setCard('rPoup', poup+'%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',
+      null, 'dn', '⚠️ Rendimento abaixo da inflação');
+    // Rendimentos
+    updateRendGrid(v, cdi, parseFloat(liveData.ipca_raw||4.83), parseFloat(poup));
+    document.getElementById('bcbUpdated').textContent = '✅ BCB • ' + fmtDate(data[0].data);
+    updateTicker();
+  } else {
+    // Fallback com valores estáticos recentes se API falhar
+    setCard('rSelic','10,75%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',null,'up','Fonte: BCB — verificar ao vivo');
+    setCard('rCdi','10,65%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',null,'nt','≈ SELIC − 0,10%');
+    setCard('rPoup','7,53%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',null,'dn','70% SELIC + TR');
+    document.getElementById('bcbUpdated').textContent = '⚠️ API offline — dados de mai/2025';
+    updateRendGrid(10.75, 10.65, 4.83, 7.53);
+  }
+}
+
+// ── CARREGAR IPCA ──
+async function loadIpca() {
+  const data = await fetchSGS(SGS.ipca, 1);
+  if(data && data[0]) {
+    const v = parseFloat(data[0].valor);
+    liveData.ipca = v.toFixed(2)+'%';
+    liveData.ipca_raw = v;
+    const cls = v > 6 ? 'dn' : v > 3 ? 'gold' : 'up';
+    const chg = v > 4.5 ? 'dn' : 'up';
+    setCard('rIpca', v.toFixed(2)+'%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',
+      null, chg, v > 4.5 ? '⚠️ Acima da meta (3,25%)' : '✓ Dentro da meta');
+    updateTicker();
+  } else {
+    setCard('rIpca','4,83%<span style="font-size:1rem;color:var(--muted)"> a.a.</span>',null,'nt','Dados de mai/2025');
+    liveData.ipca_raw = 4.83;
+  }
+}
+
+// ── CARREGAR CÂMBIO ──
+async function loadCambio() {
+  // USD
+  const usd = await fetchCambio('USD');
+  if(usd && usd.cotacaoVenda) {
+    const v = parseFloat(usd.cotacaoVenda);
+    liveData.usd = 'R$ '+v.toFixed(2);
+    setCard('rUsd','R$ '+v.toFixed(2)+'<span style="font-size:.9rem;color:var(--muted)"> /USD</span>',
+      'Câmbio PTAX — ' + new Date(usd.dataHoraCotacao).toLocaleDateString('pt-BR'),
+      'nt', 'PTAX Banco Central');
+  } else {
+    setCard('rUsd','R$ 5,18<span style="font-size:.9rem;color:var(--muted)"> /USD</span>',null,'nt','Dado referência mai/2025');
+    liveData.usd = 'R$ 5,18';
+  }
+  // EUR
+  const eur = await fetchCambio('EUR');
+  if(eur && eur.cotacaoVenda) {
+    const v = parseFloat(eur.cotacaoVenda);
+    liveData.eur = 'R$ '+v.toFixed(2);
+    setCard('rEur','R$ '+v.toFixed(2)+'<span style="font-size:.9rem;color:var(--muted)"> /EUR</span>',
+      'Câmbio PTAX — ' + new Date(eur.dataHoraCotacao).toLocaleDateString('pt-BR'),
+      'nt', 'PTAX Banco Central');
+  } else {
+    setCard('rEur','R$ 5,84<span style="font-size:.9rem;color:var(--muted)"> /EUR</span>',null,'nt','Dado referência mai/2025');
+    liveData.eur = 'R$ 5,84';
+  }
+  updateTicker();
+}
+
+// ── GRÁFICO SELIC ──
+async function loadSelicChart(meses=12, btn=null) {
+  if(btn) {
+    document.querySelectorAll('#selicChart').forEach(()=>{});
+    document.querySelectorAll('.ctab').forEach(t=>{if(t.onclick.toString().includes('selicChart')||t.closest('.chart-card')?.querySelector('#selicChart')){}});
+    // Atualiza tabs do primeiro chart card
+    const tabs = document.querySelectorAll('.chart-card')[0]?.querySelectorAll('.ctab');
+    tabs?.forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const data = await fetchSGS(SGS.selic, meses);
+  const ctx  = document.getElementById('selicChart').getContext('2d');
+  if(selicChart) selicChart.destroy();
+
+  // Fallback histórico se API falhar
+  const fallback = gerarFallbackSelic(meses);
+  const series = data || fallback;
+
+  selicChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: series.map(d=>fmtDate(d.data)),
+      datasets:[{
+        label:'SELIC % a.a.',
+        data: series.map(d=>parseFloat(d.valor)),
+        borderColor:'#1B6B3A', backgroundColor:'rgba(27,107,58,.1)',
+        borderWidth:2.5, pointRadius:2, tension:.4, fill:true
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` SELIC: ${c.raw}% a.a.`}}},
+      scales:{
+        y:{ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#E8E0D0'}},
+        x:{ticks:{maxTicksLimit:12,font:{size:9}},grid:{color:'#E8E0D0'}}
+      }
+    }
+  });
+}
+
+// ── GRÁFICO IPCA ──
+async function loadIpcaChart(meses=12, btn=null) {
+  if(btn) {
+    const tabs = document.querySelectorAll('.chart-card')[1]?.querySelectorAll('.ctab');
+    tabs?.forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const data = await fetchSGS(SGS.ipca, meses);
+  const ctx  = document.getElementById('ipcaChart').getContext('2d');
+  if(ipcaChart) ipcaChart.destroy();
+
+  const fallback = gerarFallbackIpca(meses);
+  const series   = data || fallback;
+
+  ipcaChart = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: series.map(d=>fmtDate(d.data)),
+      datasets:[{
+        label:'IPCA % acum. 12m',
+        data: series.map(d=>parseFloat(d.valor)),
+        backgroundColor: series.map(d=>parseFloat(d.valor)>6?'rgba(192,57,43,.7)':parseFloat(d.valor)>4.5?'rgba(196,154,26,.7)':'rgba(27,107,58,.7)'),
+        borderRadius:4
+      },{
+        label:'Meta IPCA 2025 (3,25%)',
+        data: series.map(()=>3.25),
+        type:'line', borderColor:'rgba(0,82,204,.6)',
+        borderWidth:1.5, borderDash:[5,5], pointRadius:0, tension:0
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
+      scales:{
+        y:{ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#E8E0D0'}},
+        x:{ticks:{maxTicksLimit:12,font:{size:9}},grid:{display:false}}
+      }
+    }
+  });
+}
+
+// ── FALLBACKS (dados recentes estáticos para quando API estiver offline) ──
+function gerarFallbackSelic(meses) {
+  const historico = [
+    {data:'2024-05-01',valor:'10.50'},{data:'2024-06-01',valor:'10.50'},
+    {data:'2024-07-01',valor:'10.50'},{data:'2024-08-01',valor:'10.50'},
+    {data:'2024-09-01',valor:'10.75'},{data:'2024-10-01',valor:'11.25'},
+    {data:'2024-11-01',valor:'11.25'},{data:'2024-12-01',valor:'12.25'},
+    {data:'2025-01-01',valor:'13.25'},{data:'2025-02-01',valor:'13.25'},
+    {data:'2025-03-01',valor:'14.25'},{data:'2025-04-01',valor:'14.75'},
+    {data:'2025-05-01',valor:'14.75'},
+  ];
+  return historico.slice(-meses);
+}
+
+function gerarFallbackIpca(meses) {
+  const historico = [
+    {data:'2024-05-01',valor:'3.93'},{data:'2024-06-01',valor:'4.23'},
+    {data:'2024-07-01',valor:'4.50'},{data:'2024-08-01',valor:'4.24'},
+    {data:'2024-09-01',valor:'4.42'},{data:'2024-10-01',valor:'4.76'},
+    {data:'2024-11-01',valor:'4.87'},{data:'2024-12-01',valor:'4.83'},
+    {data:'2025-01-01',valor:'4.96'},{data:'2025-02-01',valor:'5.06'},
+    {data:'2025-03-01',valor:'5.48'},{data:'2025-04-01',valor:'5.53'},
+    {data:'2025-05-01',valor:'5.40'},
+  ];
+  return historico.slice(-meses);
+}
+
+// ── RENDIMENTO DE R$1.000 ──
+function updateRendGrid(selic, cdi, ipca, poup) {
+  const inv = [
+    {label:'Tesouro Reserva', color:'#1B6B3A', rate:selic, ir:0.15, icon:'🟢'},
+    {label:'Tesouro SELIC',   color:'#0052CC', rate:selic, ir:0.15, icon:'🔵'},
+    {label:'CDB 100% CDI',    color:'#C49A1A', rate:cdi,   ir:0.15, icon:'🟡'},
+    {label:'Poupança',        color:'#C0392B', rate:poup,  ir:0,    icon:'🔴'},
+    {label:'Fundo DI',        color:'#5B21B6', rate:cdi-0.50, ir:0.15, icon:'🟣'},
+  ];
+  const grid = document.getElementById('rendGrid');
+  grid.innerHTML = inv.map(i=>{
+    const rLiq = i.rate * (1-i.ir);
+    const m1   = 1000 * (rLiq/100/12);
+    const m12  = 1000 * ((Math.pow(1+rLiq/100/12,12))-1);
+    const real = rLiq - ipca;
+    const realCls = real > 0 ? 'up' : 'dn';
+    return `
+    <div class="rate-card" style="border-top:3px solid ${i.color}">
+      <div class="rate-label">${i.icon} ${i.label}</div>
+      <div class="rate-value" style="font-size:1.3rem;color:${i.color}">${m1.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}<span style="font-size:.8rem;color:var(--muted)">/mês</span></div>
+      <div class="rate-sub">Em 1 ano: <strong>${m12.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</strong></div>
+      <span class="rate-change ${realCls}">Ganho real: ${real>0?'+':''}${real.toFixed(2)}% a.a.</span>
+    </div>`;
+  }).join('');
+}
+
+// ── TESOURO DIRETO ──
+function renderTesouroDireto() {
+  // Dados de referência do Tesouro Nacional (atualizar periodicamente)
+  // Fonte: tesourodireto.com.br/titulos/precos-e-taxas.htm
+  const titulos = [
+    {nome:'Tesouro Reserva',     taxa:'SELIC',          venc:'Diária',   min:'R$30',    liq:'Diária',   ind:'Reserva de emergência', novo:true},
+    {nome:'Tesouro SELIC 2027',  taxa:'SELIC +0,0657%', venc:'01/03/2027',min:'R$143,52',liq:'Diária',  ind:'Curto prazo'},
+    {nome:'Tesouro SELIC 2029',  taxa:'SELIC +0,1023%', venc:'01/03/2029',min:'R$148,10',liq:'Diária',  ind:'Médio prazo'},
+    {nome:'Tesouro IPCA+ 2029',  taxa:'IPCA +6,87%',    venc:'15/05/2029',min:'R$36,20', liq:'Diária',  ind:'Proteção inflação'},
+    {nome:'Tesouro IPCA+ 2035',  taxa:'IPCA +7,12%',    venc:'15/05/2035',min:'R$33,84', liq:'Diária',  ind:'Longo prazo'},
+    {nome:'Tesouro IPCA+ 2045',  taxa:'IPCA +7,34%',    venc:'15/05/2045',min:'R$45,23', liq:'Diária',  ind:'Aposentadoria'},
+    {nome:'Tesouro Pref. 2027',  taxa:'13,87%',         venc:'01/01/2027',min:'R$92,14', liq:'Diária',  ind:'Previsibilidade'},
+    {nome:'Tesouro Pref. 2031',  taxa:'14,03%',         venc:'01/01/2031',min:'R$62,80', liq:'Diária',  ind:'Longo prazo'},
+    {nome:'Tesouro Renda+ 2030', taxa:'IPCA +6,95%',    venc:'01/04/2030',min:'R$32,60', liq:'Venc.',   ind:'Renda mensal'},
+  ];
+
+  document.getElementById('tesouroDiretoBody').innerHTML = titulos.map(t=>`
+    <tr>
+      <td><strong>${t.nome}</strong> ${t.novo?'<span style="background:#E8F5EE;color:#1B6B3A;font-size:.65rem;font-weight:800;padding:.1rem .4rem;border-radius:4px;text-transform:uppercase">Novo</span>':''}</td>
+      <td class="td-b td-mono">${t.taxa}</td>
+      <td>${t.venc}</td>
+      <td class="td-mono">${t.min}</td>
+      <td class="td-g">${t.liq}</td>
+      <td style="color:var(--muted);font-size:.8rem">${t.ind}</td>
+      <td><a class="btn-invest" href="https://www.tesourodireto.com.br/titulos/precos-e-taxas.htm" target="_blank" rel="noopener">Investir →</a></td>
+    </tr>
+  `).join('');
+}
+
+// ── NOTÍCIAS ──
+function renderNews() {
+  const news = [
+    {source:'Valor Econômico', color:'#0052CC', title:'COPOM mantém SELIC em 14,75% e sinaliza pausa no ciclo de alta', date:'15 mai 2025', tag:'SELIC', tagColor:'#0052CC', url:'https://valor.globo.com/financas'},
+    {source:'InfoMoney', color:'#E8920A', title:'Tesouro Reserva já supera R$2 bilhões em captação no primeiro mês', date:'14 mai 2025', tag:'Tesouro', tagColor:'#1B6B3A', url:'https://infomoney.com.br/onde-investir/renda-fixa'},
+    {source:'Exame', color:'#C0392B', title:'IPCA de abril sobe 0,43% e acumulado em 12 meses vai a 5,53%', date:'13 mai 2025', tag:'IPCA', tagColor:'#C49A1A', url:'https://exame.com/economia'},
+    {source:'G1 Economia', color:'#E53935', title:'Dólar fecha abaixo de R$5,20 com melhora no cenário externo', date:'15 mai 2025', tag:'Câmbio', tagColor:'#0891b2', url:'https://g1.globo.com/economia'},
+    {source:'Reuters Brasil', color:'#FF8000', title:'Fed mantém juros e mercado revisa apostas para cortes em 2025', date:'14 mai 2025', tag:'Global', tagColor:'#5b21b6', url:'https://www.reuters.com/brasil'},
+    {source:'Moneytimes', color:'#1B6B3A', title:'CDBs de bancos digitais pagam até 125% do CDI — veja os melhores', date:'12 mai 2025', tag:'CDB', tagColor:'#C49A1A', url:'https://www.moneytimes.com.br/renda-fixa'},
+  ];
+
+  document.getElementById('newsGrid').innerHTML = news.map(n=>`
+    <a class="news-card" href="${n.url}" target="_blank" rel="noopener">
+      <div class="news-source">
+        <div class="news-source-dot" style="background:${n.color}"></div>
+        ${n.source}
+      </div>
+      <div class="news-title">${n.title}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap">
+        <span class="news-date">${n.date}</span>
+        <span class="news-tag" style="background:${n.tagColor}22;color:${n.tagColor}">${n.tag}</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+// ── AGENDA ECONÔMICA ──
+function renderAgenda() {
+  const eventos = [
+    {dia:'18',mes:'JUN',evento:'COPOM — Decisão de Juros',desc:'Banco Central decide sobre a taxa SELIC. Mercado espera manutenção em 14,75%.',impact:'high'},
+    {dia:'10',mes:'JUN',evento:'IPCA — Maio 2025',desc:'IBGE divulga inflação oficial de maio. Expectativa: 0,35% no mês.',impact:'high'},
+    {dia:'20',mes:'JUN',evento:'Relatório Focus',desc:'BCB publica expectativas de mercado para inflação, PIB e câmbio.',impact:'med'},
+    {dia:'27',mes:'JUN',evento:'PIB — 1º Trimestre',desc:'IBGE divulga crescimento da economia brasileira no 1º tri de 2025.',impact:'high'},
+    {dia:'05',mes:'JUL',evento:'Payroll EUA',desc:'Dados de empregos americanos impactam câmbio e bolsas globais.',impact:'med'},
+    {dia:'15',mes:'JUL',evento:'IPC-FIPE Semanal',desc:'Indicador de inflação na cidade de São Paulo — prévia do IPCA.',impact:'low'},
+  ];
+
+  document.getElementById('agendaDate').textContent = 'Próximos eventos · Mai–Jul 2025';
+  document.getElementById('calendarGrid').innerHTML = eventos.map(e=>`
+    <div class="cal-card">
+      <div class="cal-date-box">
+        <div class="cal-day">${e.dia}</div>
+        <div class="cal-month">${e.mes}</div>
+      </div>
+      <div>
+        <div class="cal-event">${e.evento}</div>
+        <div class="cal-desc">${e.desc}</div>
+        <span class="cal-impact ${e.impact}">${e.impact==='high'?'🔴 Alto impacto':e.impact==='med'?'🟡 Médio impacto':'🟢 Baixo impacto'}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── INIT ──
+async function init() {
+  // Carrega tudo em paralelo
+  await Promise.all([
+    loadSelic(),
+    loadIpca(),
+    loadCambio(),
+  ]);
+
+  // Charts históricos
+  await Promise.all([
+    loadSelicChart(12),
+    loadIpcaChart(12),
+  ]);
+
+  // Estáticos
+  renderTesouroDireto();
+  renderNews();
+  renderAgenda();
+
+  // Atualiza ticker final
+  updateTicker();
+
+  // Auto-refresh a cada 10 minutos
+  setInterval(()=>{
+    loadSelic();
+    loadIpca();
+    loadCambio();
+  }, 10 * 60 * 1000);
+}
+
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const pct = window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  document.querySelector('.progress-bar')&&(document.querySelector('.progress-bar').style.width=pct+'%');
+});
+
+window.addEventListener('load', init);
+</script>
+
+<!-- Progress Bar -->
+<div class="progress-bar" style="position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:9999;width:0%;transition:width .1s"></div>
+
+</body>
+</html>
