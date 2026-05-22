@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://valoredinheiro.com.br/sitemap.xml
